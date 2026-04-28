@@ -28,6 +28,7 @@ require_once SXHC_DIR . 'includes/class-sxhc-category-order.php';
 require_once SXHC_DIR . 'includes/class-sxhc-category-meta.php';
 require_once SXHC_DIR . 'includes/class-sxhc-multi-category.php';
 require_once SXHC_DIR . 'includes/class-sxhc-alert-block.php';
+require_once SXHC_DIR . 'includes/class-sxhc-views.php';
 
 register_activation_hook( __FILE__,   'sxhc_activate' );
 register_deactivation_hook( __FILE__, 'sxhc_deactivate' );
@@ -54,6 +55,7 @@ add_action( 'init', array( 'SXHC_Category_Order',  'init' ) );
 add_action( 'init', array( 'SXHC_Category_Meta',    'init' ) );
 add_action( 'init', array( 'SXHC_Multi_Category',  'init' ) );
 add_action( 'init', array( 'SXHC_Alert_Block',     'init' ) );
+add_action( 'init', array( 'SXHC_Views',           'init' ) );
 
 // ── Soporte SVG en la media library ──────────────────────────────────────────
 add_filter( 'upload_mimes', function( $mimes ) {
@@ -87,6 +89,11 @@ add_filter( 'wp_prepare_attachment_for_js', function( $response ) {
         );
     }
     return $response;
+} );
+
+// Ocultar "Entradas" del menú admin (no se usa en el help center)
+add_action( 'admin_menu', function() {
+    remove_menu_page( 'edit.php' );
 } );
 
 // Flush rewrite rules si el slug de la taxonomía cambió

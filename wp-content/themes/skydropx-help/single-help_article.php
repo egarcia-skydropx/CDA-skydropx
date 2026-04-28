@@ -36,31 +36,9 @@ $context_term_id = class_exists( 'SXHC_Multi_Category' )
             <article>
                 <h1 class="text-2xl font-bold text-gray-900 mb-4"><?php the_title(); ?></h1>
 
-                <!-- Categorías asignadas (badges) -->
-                <?php if ( count( $all_terms ) > 0 ) : ?>
-                <div class="flex flex-wrap gap-2 mb-6">
-                    <?php foreach ( $all_terms as $t ) :
-                        $is_active = ( $t->term_id === $context_term_id );
-                        $cat_url   = add_query_arg( 'cat', $t->term_id, get_permalink() );
-                        $path      = class_exists( 'SXHC_Multi_Category' )
-                            ? SXHC_Multi_Category::get_term_path( $t )
-                            : $t->name;
-                    ?>
-                        <a href="<?php echo esc_url( get_term_link( $t ) ); ?>"
-                           title="<?php echo esc_attr( $path ); ?>"
-                           class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium
-                                  transition-colors
-                                  <?php echo $is_active
-                                      ? 'bg-brand text-white'
-                                      : 'bg-brand-light text-brand hover:bg-brand hover:text-white'; ?>">
-                            <?php echo esc_html( $t->name ); ?>
-                        </a>
-                    <?php endforeach; ?>
-                </div>
-                <?php endif; ?>
 
                 <!-- Contenido del artículo -->
-                <div class="prose prose-gray max-w-none
+                <div class="article-content prose prose-gray max-w-none
                             prose-headings:font-semibold prose-headings:text-gray-900
                             prose-a:text-brand prose-a:no-underline hover:prose-a:underline
                             prose-img:rounded-lg prose-img:border prose-img:border-gray-100

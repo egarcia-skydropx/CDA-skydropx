@@ -17,7 +17,7 @@ class SXHC_Post_Type {
             'search_items'       => 'Buscar artículos',
             'not_found'          => 'No se encontraron artículos',
             'not_found_in_trash' => 'No hay artículos en la papelera',
-            'menu_name'          => 'Help Center',
+            'menu_name'          => 'CDA',
             'all_items'          => 'Todos los artículos',
         );
 
@@ -34,7 +34,7 @@ class SXHC_Post_Type {
             'has_archive'         => true,
             'hierarchical'        => false,
             'menu_position'       => 5,
-            'menu_icon'           => 'dashicons-sos',
+            'menu_icon'           => 'dashicons-admin-post',
             'supports'            => array(
                 'title',
                 'editor',

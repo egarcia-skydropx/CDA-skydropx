@@ -39,6 +39,32 @@ add_action( 'wp_head', function() {
         }
     }
     </script>' . "\n";
+    echo '<style>
+    /* Espaciado entre elementos en el cuerpo del artículo */
+    .article-content img,
+    .article-content figure,
+    .article-content table,
+    .article-content .sxhc-alert,
+    .article-content iframe,
+    .article-content video,
+    .article-content pre,
+    .article-content blockquote {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    .article-content figure figcaption {
+        margin-top: 0;
+    }
+    /* Links con color primario para contraste */
+    .article-content a {
+        color: var(--brand);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+    .article-content a:hover {
+        opacity: 0.8;
+    }
+    </style>' . "\n";
 } );
 
 // ─── Helpers de categorías ───────────────────────────────────────────────────
