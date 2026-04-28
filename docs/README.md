@@ -257,10 +257,11 @@ Esto permite buscar sin importar:
 | Sección | Campos |
 |---------|--------|
 | **Identidad** | Logo (media), ancho del logo, nombre de la marca |
-| **Hero** | Título, subtítulo |
 | **Colores** | Brand, brand light, texto, muted, bordes |
 | **Fondos** | Página, header, hero, sidebar |
 | **Tipografía y Cards** | Fuente (5 opciones), radio de cards (slider 0-32px) |
+
+> Nota: la sección "Hero" (título + subtítulo) se eliminó porque el `index.php` ahora renderiza un Lottie + buscador sin texto editable.
 
 Todos los cambios se aplican en **tiempo real** en el preview del Customizer via `postMessage`.
 

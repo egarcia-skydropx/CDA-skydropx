@@ -279,7 +279,7 @@ class SXHC_Bulk_Actions {
                 $branch[]       = $term;
             }
         }
-        usort( $branch, fn( $a, $b ) => strcmp( $a->name, $b->name ) );
+        usort( $branch, function( $a, $b ) { return strcmp( $a->name, $b->name ); } );
         return $branch;
     }
 

@@ -2,6 +2,37 @@
 
 ---
 
+## QA — 2026-04-28 (sesión 3)
+
+### Bugs corregidos
+
+- **PHP 7.2 incompatible** — `class-sxhc-bulk-actions.php:282` usaba `fn( $a, $b ) => strcmp(...)` (PHP 7.4+) → convertido a `function( $a, $b ) { return strcmp(...); }`
+- **PHP 7.2 incompatible** — `theme/search.php:23` usaba `fn($t) => $t->name` → convertido a `function( $t ) { return $t->name; }`
+
+### Limpieza de código
+
+- `class-sxhc-appearance.php:DEFAULTS` — removidos `hero_title` y `hero_subtitle` (settings huérfanos)
+- `class-sxhc-appearance.php:register_customizer()` — eliminada la sección "Hero" completa (settings + controls de `sxhc_hero_title` y `sxhc_hero_subtitle`)
+- `class-sxhc-appearance.php:preview_js()` — removidas las bindings de `sxhc_hero_title`, `sxhc_hero_subtitle` y `sxhc_site_name` (apuntaban a clases `.sxhc-hero-title`, `.sxhc-hero-subtitle`, `.sxhc-site-name` que no existen en el tema)
+- `gutenberg-categories.js` — removido `console.log( '[SXHC] Panel de categorías registrado.' )` final (debug innecesario en cada carga del editor)
+- `class-sxhc-multi-category.php:enqueue()` — versión del script bumped `1.4` → `1.5` (porque cambió `gutenberg-categories.js`)
+
+### Docs actualizadas
+
+- `docs/README.md` — tabla del Customizer: removida la fila "Hero", agregada nota explicando por qué
+- `docs/estructura-archivos.md` — agregadas las clases que faltaban en el árbol (`class-sxhc-multi-category.php`, `class-sxhc-alert-block.php`, `class-sxhc-views.php`) y la carpeta `assets/` del plugin (con `alerts.css`, `alert-block.js`, `gutenberg-categories.js`); agregadas meta keys faltantes (`_sxhc_primary_category`, `_sxhc_views`)
+
+### Sin cambios necesarios
+
+- `sxhc_rewrite_version` sigue en `'2'` (slug taxonomía no cambió)
+- 3 filtros SVG en `skydropx-help-center.php` — únicos, no duplicados
+- `auth_callback` en `register_post_meta` para `_sxhc_primary_category` — presente
+- Slug de taxonomía: `categoria` (correcto, sin `ayuda/categoria`)
+- `console.warn` en `gutenberg-categories.js:14` — útil para detectar entornos sin `PluginDocumentSettingPanel`, se mantiene
+- `SXHC_Multi_Category::save_categories()` — fallback documentado para saves clásicos, no se elimina
+
+---
+
 ## QA — 2026-04-28 (sesión 2)
 
 ### Limpieza de código

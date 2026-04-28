@@ -17,6 +17,12 @@
 │   ├── plugins/
 │   │   └── skydropx-help-center/
 │   │       ├── skydropx-help-center.php           ← Bootstrap: require + hooks
+│   │       ├── assets/
+│   │       │   ├── css/
+│   │       │   │   └── alerts.css                 ← Estilos del bloque de alertas
+│   │       │   └── js/
+│   │       │       ├── alert-block.js             ← Bloque Gutenberg de alertas
+│   │       │       └── gutenberg-categories.js    ← Panel de categorías en sidebar
 │   │       └── includes/
 │   │           ├── class-sxhc-post-type.php
 │   │           ├── class-sxhc-taxonomy.php
@@ -27,7 +33,10 @@
 │   │           ├── class-sxhc-bulk-actions.php
 │   │           ├── class-sxhc-appearance.php
 │   │           ├── class-sxhc-category-order.php
-│   │           └── class-sxhc-category-meta.php
+│   │           ├── class-sxhc-category-meta.php
+│   │           ├── class-sxhc-multi-category.php  ← Múltiples categorías por artículo
+│   │           ├── class-sxhc-alert-block.php     ← Bloque Gutenberg de alertas
+│   │           └── class-sxhc-views.php           ← Contador de visitas por artículo
 │   │
 │   └── themes/
 │       └── skydropx-help/
@@ -78,5 +87,7 @@
 | Post | `_sxhc_keywords` | Keywords de búsqueda |
 | Post | `_sxhc_tags` | Tags del artículo |
 | Post | `_sxhc_title_normalized` | Título sin acentos/espacios (para búsqueda) |
+| Post | `_sxhc_primary_category` | term_id de la categoría primaria (multi-categoría) |
+| Post | `_sxhc_views` | Contador de visitas del artículo |
 | Term | `sxhc_term_order` | Posición de la categoría en el orden drag & drop |
 | Term | `sxhc_category_image` | ID del attachment de la imagen (solo categorías raíz) |

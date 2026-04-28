@@ -161,6 +161,4 @@
         }
     } );
 
-    console.log( '[SXHC] Panel de categorías registrado.' );
-
 } )();

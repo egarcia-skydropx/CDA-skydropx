@@ -20,7 +20,7 @@
                         <?php
                         $crumbs = sxhc_get_post_breadcrumb( get_the_ID() );
                         if ( $crumbs ) :
-                            $names = array_map( fn($t) => $t->name, $crumbs );
+                            $names = array_map( function( $t ) { return $t->name; }, $crumbs );
                         ?>
                         <p class="text-xs text-gray-400 mt-0.5"><?php echo esc_html( implode( ' / ', $names ) ); ?></p>
                         <?php endif; ?>

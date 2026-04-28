@@ -17,8 +17,6 @@ class SXHC_Appearance {
         'bg_header'         => '#FFFFFF',
         'bg_hero'           => '#FFFFFF',
         'bg_sidebar'        => '#FFFFFF',
-        'hero_title'        => 'Centro de ayuda',
-        'hero_subtitle'     => '¿En qué podemos ayudarte?',
         'font_family'       => 'system-ui, -apple-system, sans-serif',
         'card_radius'       => 16,
     );
@@ -93,36 +91,6 @@ class SXHC_Appearance {
             'description' => 'Se muestra en el header si no hay logo.',
             'section'     => 'sxhc_identity',
             'type'        => 'text',
-        ) );
-
-        // ════════════════════════════════════════
-        //  Sección: Hero
-        // ════════════════════════════════════════
-        $wp_customize->add_section( 'sxhc_hero', array(
-            'title' => 'Hero (página principal)',
-            'panel' => 'sxhc_panel',
-        ) );
-
-        $wp_customize->add_setting( 'sxhc_hero_title', array(
-            'default'           => 'Centro de ayuda',
-            'sanitize_callback' => 'sanitize_text_field',
-            'transport'         => 'postMessage',
-        ) );
-        $wp_customize->add_control( 'sxhc_hero_title', array(
-            'label'   => 'Título',
-            'section' => 'sxhc_hero',
-            'type'    => 'text',
-        ) );
-
-        $wp_customize->add_setting( 'sxhc_hero_subtitle', array(
-            'default'           => '¿En qué podemos ayudarte?',
-            'sanitize_callback' => 'sanitize_text_field',
-            'transport'         => 'postMessage',
-        ) );
-        $wp_customize->add_control( 'sxhc_hero_subtitle', array(
-            'label'   => 'Subtítulo',
-            'section' => 'sxhc_hero',
-            'type'    => 'text',
         ) );
 
         // ════════════════════════════════════════
@@ -283,27 +251,6 @@ tailwind.config = {
             wp.customize('sxhc_card_radius', function(value) {
                 value.bind(function(v) {
                     document.documentElement.style.setProperty('--card-radius', v + 'px');
-                });
-            });
-
-            // Título del hero
-            wp.customize('sxhc_hero_title', function(value) {
-                value.bind(function(v) {
-                    \$('h1.sxhc-hero-title').text(v);
-                });
-            });
-
-            // Subtítulo del hero
-            wp.customize('sxhc_hero_subtitle', function(value) {
-                value.bind(function(v) {
-                    \$('p.sxhc-hero-subtitle').text(v);
-                });
-            });
-
-            // Nombre del sitio
-            wp.customize('sxhc_site_name', function(value) {
-                value.bind(function(v) {
-                    \$('.sxhc-site-name').text(v);
                 });
             });
 

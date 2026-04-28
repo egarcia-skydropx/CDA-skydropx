@@ -82,7 +82,7 @@ class SXHC_Multi_Category {
             'sxhc-gutenberg-categories',
             SXHC_URL . 'assets/js/gutenberg-categories.js',
             array( 'wp-plugins', 'wp-edit-post', 'wp-element', 'wp-data', 'wp-components' ),
-            '1.4',
+            '1.5',
             true
         );
 
