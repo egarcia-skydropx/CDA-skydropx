@@ -31,12 +31,33 @@ $hero_subtitle = ! empty( $appearance['hero_subtitle'] ) ? $appearance['hero_sub
                 'hide_empty' => false,
             ) ) );
         ?>
+        <?php
+        $img_url = class_exists( 'SXHC_Category_Meta' )
+            ? SXHC_Category_Meta::get_image_url( $cat->term_id, 'medium' )
+            : '';
+        ?>
         <a href="<?php echo esc_url( get_term_link( $cat ) ); ?>"
            class="group flex flex-col bg-white border border-gray-200 rounded-2xl p-6
                   hover:border-brand hover:shadow-md transition-all duration-200">
+
+            <?php if ( $img_url ) : ?>
+                <div class="mb-4">
+                    <img src="<?php echo esc_url( $img_url ); ?>"
+                         alt="<?php echo esc_attr( $cat->name ); ?>"
+                         style="max-height:60px; width:auto; display:block;">
+                </div>
+            <?php endif; ?>
+
             <h2 class="font-semibold text-gray-900 group-hover:text-brand transition-colors mb-1">
                 <?php echo esc_html( $cat->name ); ?>
             </h2>
+
+            <?php if ( $cat->description ) : ?>
+                <p class="text-sm text-gray-500 mt-1 mb-0">
+                    <?php echo esc_html( $cat->description ); ?>
+                </p>
+            <?php endif; ?>
+
             <p class="text-xs text-gray-400 mt-auto pt-3">
                 <?php echo $child_count; ?> subcategoría<?php echo $child_count !== 1 ? 's' : ''; ?>
             </p>
