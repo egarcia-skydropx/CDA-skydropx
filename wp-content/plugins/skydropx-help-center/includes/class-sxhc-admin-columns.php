@@ -46,7 +46,12 @@ class SXHC_Admin_Columns {
         $deepest = self::get_deepest_term( $terms );
 
         if ( $column === 'sxhc_category' ) {
-            self::render_category_chip( $deepest );
+            // Mostrar un chip por cada categoría asignada
+            echo '<div style="display:flex; flex-wrap:wrap; gap:4px;">';
+            foreach ( $terms as $term ) {
+                self::render_category_chip( $term );
+            }
+            echo '</div>';
         }
 
         if ( $column === 'sxhc_category_path' ) {
@@ -55,8 +60,7 @@ class SXHC_Admin_Columns {
     }
 
     /**
-     * Muestra el nombre del término más específico como un enlace
-     * que filtra la lista por esa categoría.
+     * Muestra el nombre del término como un enlace que filtra la lista.
      */
     private static function render_category_chip( $term ) {
         $filter_url = add_query_arg( array(

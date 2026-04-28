@@ -79,9 +79,12 @@ $has_children = ! empty( $children ) && ! is_wp_error( $children );
 
             <?php if ( $query->have_posts() ) : ?>
                 <ul class="divide-y divide-gray-100 bg-white border border-gray-200 rounded-xl overflow-hidden">
-                    <?php while ( $query->have_posts() ) : $query->the_post(); ?>
+                    <?php while ( $query->have_posts() ) : $query->the_post();
+                        // Añadir ?cat para breadcrumb contextual
+                        $article_url = add_query_arg( 'cat', $term->term_id, get_permalink() );
+                    ?>
                     <li>
-                        <a href="<?php the_permalink(); ?>"
+                        <a href="<?php echo esc_url( $article_url ); ?>"
                            class="flex items-center justify-between px-5 py-4 hover:bg-brand-light group transition-colors">
                             <span class="text-sm font-medium text-gray-800 group-hover:text-brand transition-colors">
                                 <?php the_title(); ?>

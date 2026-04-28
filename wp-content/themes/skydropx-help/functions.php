@@ -60,12 +60,25 @@ function sxhc_get_term_breadcrumb( $term ) {
 
 /**
  * Devuelve el breadcrumb de un artículo como array de objetos WP_Term.
+ * Usa la categoría contextual (?cat=) si está disponible y es válida,
+ * de lo contrario usa la categoría primaria marcada en el editor.
  */
 function sxhc_get_post_breadcrumb( $post_id ) {
+    // Usar el sistema multi-categoría si está disponible
+    if ( class_exists( 'SXHC_Multi_Category' ) ) {
+        $term_id = SXHC_Multi_Category::get_context_term_id( $post_id );
+        if ( $term_id ) {
+            $term = get_term( $term_id, 'help_category' );
+            if ( $term && ! is_wp_error( $term ) ) {
+                return sxhc_get_term_breadcrumb( $term );
+            }
+        }
+    }
+
+    // Fallback: término más profundo
     $terms = get_the_terms( $post_id, 'help_category' );
     if ( ! $terms || is_wp_error( $terms ) ) return array();
 
-    // Término más profundo
     $deepest = null;
     $max     = -1;
     foreach ( $terms as $t ) {

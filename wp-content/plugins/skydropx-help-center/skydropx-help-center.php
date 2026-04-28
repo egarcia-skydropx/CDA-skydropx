@@ -26,6 +26,7 @@ require_once SXHC_DIR . 'includes/class-sxhc-bulk-actions.php';
 require_once SXHC_DIR . 'includes/class-sxhc-appearance.php';
 require_once SXHC_DIR . 'includes/class-sxhc-category-order.php';
 require_once SXHC_DIR . 'includes/class-sxhc-category-meta.php';
+require_once SXHC_DIR . 'includes/class-sxhc-multi-category.php';
 
 register_activation_hook( __FILE__,   'sxhc_activate' );
 register_deactivation_hook( __FILE__, 'sxhc_deactivate' );
@@ -49,7 +50,8 @@ add_action( 'init', array( 'SXHC_Search',           'init' ) );
 add_action( 'init', array( 'SXHC_Bulk_Actions',     'init' ) );
 add_action( 'init', array( 'SXHC_Appearance',      'init' ) );
 add_action( 'init', array( 'SXHC_Category_Order',  'init' ) );
-add_action( 'init', array( 'SXHC_Category_Meta',   'init' ) );
+add_action( 'init', array( 'SXHC_Category_Meta',    'init' ) );
+add_action( 'init', array( 'SXHC_Multi_Category',  'init' ) );
 
 // ── Soporte SVG en la media library ──────────────────────────────────────────
 add_filter( 'upload_mimes', function( $mimes ) {

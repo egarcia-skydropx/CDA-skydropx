@@ -16,8 +16,9 @@
 6. [Apariencia y personalización](#6-apariencia-y-personalización)
 7. [Ordenar categorías](#7-ordenar-categorías)
 8. [Acciones masivas](#8-acciones-masivas)
-9. [URLs y estructura de navegación](#9-urls-y-estructura-de-navegación)
-10. [Decisiones técnicas](#10-decisiones-técnicas)
+9. [Multi-categoría en artículos](./multi-categoria.md) ← nueva
+10. [URLs y estructura de navegación](#10-urls-y-estructura-de-navegación)
+11. [Decisiones técnicas](#11-decisiones-técnicas)
 
 ---
 
