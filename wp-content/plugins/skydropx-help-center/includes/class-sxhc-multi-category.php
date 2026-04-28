@@ -58,7 +58,7 @@ class SXHC_Multi_Category {
 
         $autosave = wp_get_post_autosave( $post_id );
         if ( $autosave ) {
-            wp_delete_post_autosave( $post_id );
+            wp_delete_post( $autosave->ID, true );
         }
     }
 

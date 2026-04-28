@@ -1,0 +1,176 @@
+/* ─── Skydropx Help Center — Alert Block (Caelus Design System) ─────────── */
+
+.sxhc-alert {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    margin: 16px 0;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ── Variantes de color ───────────────────────────────────────────────────── */
+.sxhc-alert.is-success { background: #F3FAF7; border-color: #84E1BC; }
+.sxhc-alert.is-danger  { background: #FDF2F2; border-color: #F8B4B4; }
+.sxhc-alert.is-info    { background: #EBF5FF; border-color: #A4CAFE; }
+.sxhc-alert.is-warning { background: #FDFDEA; border-color: #FFCD05; }
+.sxhc-alert.is-default { background: #F3F4F6; border-color: #9CA3AF; }
+.sxhc-alert.is-orange  { background: #FFF8F1; border-color: #FDBA8C; }
+
+/* ── Header (icono + título) ─────────────────────────────────────────────── */
+.sxhc-alert__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sxhc-alert__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* Colores del ícono y título por variante */
+.sxhc-alert.is-success .sxhc-alert__icon,
+.sxhc-alert.is-success .sxhc-alert__heading { color: #057A55; }
+
+.sxhc-alert.is-danger .sxhc-alert__icon,
+.sxhc-alert.is-danger .sxhc-alert__heading  { color: #C81E1E; }
+
+.sxhc-alert.is-info .sxhc-alert__icon,
+.sxhc-alert.is-info .sxhc-alert__heading    { color: #1C64F2; }
+
+.sxhc-alert.is-warning .sxhc-alert__icon,
+.sxhc-alert.is-warning .sxhc-alert__heading { color: #8E4B10; }
+
+.sxhc-alert.is-default .sxhc-alert__icon,
+.sxhc-alert.is-default .sxhc-alert__heading { color: #374151; }
+
+.sxhc-alert.is-orange .sxhc-alert__icon,
+.sxhc-alert.is-orange .sxhc-alert__heading  { color: #B43403; }
+
+/* Título */
+.sxhc-alert__heading {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0;
+    flex: 1;
+}
+
+/* ── Cuerpo ───────────────────────────────────────────────────────────────── */
+.sxhc-alert__body {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #374151;
+    margin: 0;
+}
+
+/* Sin heading: body vive dentro del .header, se extiende junto al ícono */
+.sxhc-alert:not(.has-heading) .sxhc-alert__header {
+    align-items: flex-start;
+}
+.sxhc-alert:not(.has-heading) .sxhc-alert__body {
+    flex: 1;
+    min-width: 0;
+    padding-left: 0; /* ya está en flex row con el ícono */
+}
+
+.sxhc-alert:not(.has-heading).is-success .sxhc-alert__body { color: #057A55; }
+.sxhc-alert:not(.has-heading).is-danger  .sxhc-alert__body { color: #C81E1E; }
+.sxhc-alert:not(.has-heading).is-info    .sxhc-alert__body { color: #1C64F2; }
+.sxhc-alert:not(.has-heading).is-warning .sxhc-alert__body { color: #8E4B10; }
+.sxhc-alert:not(.has-heading).is-default .sxhc-alert__body { color: #374151; }
+.sxhc-alert:not(.has-heading).is-orange  .sxhc-alert__body { color: #B43403; }
+
+/* Listas en el cuerpo */
+.sxhc-alert__body ul,
+.sxhc-alert__body ol {
+    margin: 6px 0 0;
+    padding-left: 18px;
+}
+.sxhc-alert__body li { margin-bottom: 4px; }
+
+/* ── Botón CTA ────────────────────────────────────────────────────────────── */
+.sxhc-alert__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity .15s;
+    width: fit-content;
+    margin-top: 2px;
+}
+.sxhc-alert__btn:hover        { opacity: .85; text-decoration: none; }
+.sxhc-alert.is-success .sxhc-alert__btn { background: #057A55; color: #fff; }
+.sxhc-alert.is-danger  .sxhc-alert__btn { background: #C81E1E; color: #fff; }
+.sxhc-alert.is-info    .sxhc-alert__btn { background: #1C64F2; color: #fff; }
+.sxhc-alert.is-warning .sxhc-alert__btn { background: #8E4B10; color: #fff; }
+.sxhc-alert.is-default .sxhc-alert__btn { background: #374151; color: #fff; }
+.sxhc-alert.is-orange  .sxhc-alert__btn { background: #B43403; color: #fff; }
+
+/* ── Link ────────────────────────────────────────────────────────────────── */
+.sxhc-alert__link {
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: underline;
+    margin-top: 2px;
+    width: fit-content;
+}
+.sxhc-alert.is-success .sxhc-alert__link { color: #057A55; }
+.sxhc-alert.is-danger  .sxhc-alert__link { color: #C81E1E; }
+.sxhc-alert.is-info    .sxhc-alert__link { color: #1C64F2; }
+.sxhc-alert.is-warning .sxhc-alert__link { color: #8E4B10; }
+.sxhc-alert.is-default .sxhc-alert__link { color: #374151; }
+.sxhc-alert.is-orange  .sxhc-alert__link { color: #B43403; }
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .sxhc-alert { padding: 14px 12px; }
+    .sxhc-alert__btn { width: 100%; justify-content: center; }
+    .sxhc-alert:not(.has-heading) .sxhc-alert__body { padding-left: 0; }
+}
+
+/* ── Editor Gutenberg: selector visual de tipo ───────────────────────────── */
+.sxhc-type-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5px;
+    margin: 6px 0;
+}
+.sxhc-type-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 8px 4px 6px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+    transition: all .15s;
+}
+.sxhc-type-btn svg { width: 18px; height: 18px; }
+.sxhc-type-btn.is-active    { border-color: currentColor; }
+.sxhc-type-btn:not(.is-active):hover { opacity: .8; }
+
+.sxhc-type-btn.t-success { color: #057A55; background: #F3FAF7; }
+.sxhc-type-btn.t-danger  { color: #C81E1E; background: #FDF2F2; }
+.sxhc-type-btn.t-info    { color: #1C64F2; background: #EBF5FF; }
+.sxhc-type-btn.t-warning { color: #8E4B10; background: #FDFDEA; }
+.sxhc-type-btn.t-default { color: #374151; background: #F3F4F6; }
+.sxhc-type-btn.t-orange  { color: #B43403; background: #FFF8F1; }
