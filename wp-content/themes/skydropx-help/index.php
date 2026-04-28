@@ -1,15 +1,37 @@
 <?php get_header(); ?>
 
-<?php
-$appearance = class_exists( 'SXHC_Appearance' ) ? SXHC_Appearance::get() : array();
-$hero_title    = ! empty( $appearance['hero_title'] )    ? $appearance['hero_title']    : 'Centro de ayuda';
-$hero_subtitle = ! empty( $appearance['hero_subtitle'] ) ? $appearance['hero_subtitle'] : '¿En qué podemos ayudarte?';
-?>
+
+<!-- Lottie library -->
+<script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.10/dist/dotlottie-wc.js" type="module"></script>
 
 <!-- Hero + Search ─────────────────────────────────────────────────────────── -->
-<section style="background:var(--bg-hero)" class="border-b border-gray-100 py-16 px-6 text-center">
-    <h1 class="sxhc-hero-title text-3xl font-bold text-gray-900 mb-2"><?php echo esc_html( $hero_title ); ?></h1>
-    <p class="sxhc-hero-subtitle text-gray-400 mb-8"><?php echo esc_html( $hero_subtitle ); ?></p>
+<section style="background:var(--bg-hero)" class="border-b border-gray-100 py-12 px-6 text-center">
+
+    <!-- Lottie animation -->
+    <div class="flex justify-center mb-2">
+        <dotlottie-wc
+            id="sxhc-hero-lottie"
+            src="https://lottie.host/cc938e19-2b46-4685-8d74-c3f94b17c039/K9syE8eUJx.lottie"
+            style="width:auto; height:250px;"
+            loop>
+        </dotlottie-wc>
+    </div>
+
+    <script type="module">
+        const lottie = document.getElementById('sxhc-hero-lottie');
+        const input  = document.getElementById('sxhc-search-input');
+
+        if ( lottie && input ) {
+            input.addEventListener('focus', () => {
+                lottie.dotLottie ? lottie.dotLottie.play() : lottie.play?.();
+            });
+
+            input.addEventListener('blur', () => {
+                lottie.dotLottie ? lottie.dotLottie.stop() : lottie.stop?.();
+            });
+        }
+    </script>
+
     <?php get_template_part( 'template-parts/search-input', null, array( 'variant' => 'hero' ) ); ?>
 </section>
 
