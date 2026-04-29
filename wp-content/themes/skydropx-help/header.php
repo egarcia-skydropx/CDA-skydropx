@@ -22,19 +22,36 @@ if ( ! $logo_url ) {
 ?>
 
 <header style="background:var(--bg-header);" class="border-b border-gray-200 sticky top-0 z-30">
-    <div class="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between gap-6">
+    <div class="w-full px-6 lg:px-10 h-16 flex items-center gap-6">
 
-        <a href="<?php echo esc_url( home_url() ); ?>" class="flex items-center gap-2 shrink-0 no-underline">
-            <img src="<?php echo esc_url( $logo_url ); ?>"
-                 alt="<?php echo esc_attr( $site_name ?: 'Skydropx' ); ?>"
-                 class="sxhc-logo-img"
-                 style="width:<?php echo absint( $logo_width ); ?>px; max-height:36px; object-fit:contain; display:block;">
-            <span class="text-xs text-gray-400 font-normal hidden sm:inline">Centro de ayuda</span>
-        </a>
+        <?php // ── Bloque izquierdo: logo + nav ─────────────────────────── ?>
+        <div class="flex items-center gap-8 min-w-0">
+            <a href="<?php echo esc_url( home_url() ); ?>" class="flex items-center gap-2 shrink-0 no-underline">
+                <img src="<?php echo esc_url( $logo_url ); ?>"
+                     alt="<?php echo esc_attr( $site_name ?: 'Skydropx' ); ?>"
+                     class="sxhc-logo-img"
+                     style="width:<?php echo absint( $logo_width ); ?>px; max-height:36px; object-fit:contain; display:block;">
+                <span class="text-xs text-gray-400 font-normal hidden sm:inline">Centro de ayuda</span>
+            </a>
 
-        <?php if ( ! is_front_page() ) : ?>
-            <?php get_template_part( 'template-parts/search-input', null, array( 'variant' => 'compact' ) ); ?>
-        <?php endif; ?>
+            <?php get_template_part( 'template-parts/main-navbar' ); ?>
+        </div>
+
+        <?php // ── Espaciador flexible ─────────────────────────────────── ?>
+        <div class="flex-1"></div>
+
+        <?php // ── Bloque derecho: buscador + auth/hamburger ───────────── ?>
+        <div class="flex items-center gap-4 shrink-0">
+            <?php if ( ! is_front_page() ) : ?>
+                <div class="hidden md:block">
+                    <?php get_template_part( 'template-parts/search-input', null, array( 'variant' => 'compact' ) ); ?>
+                </div>
+            <?php endif; ?>
+
+            <?php get_template_part( 'template-parts/main-navbar-auth' ); ?>
+        </div>
 
     </div>
 </header>
+
+<?php get_template_part( 'template-parts/main-navbar-drawer' ); ?>

@@ -1,0 +1,229 @@
+/* =============================================================
+   Navbar principal — Skydropx Help Center
+   ============================================================= */
+
+/* ─── Links principales ────────────────────────────────────── */
+.sxhc-nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 12px;
+    height: 64px;          /* mismo alto que el header (h-16) */
+    font-size: 14px;
+    font-weight: 500;
+    color: #1f2937;        /* gray-800 */
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color .15s ease;
+}
+.sxhc-nav-link:hover,
+.sxhc-nav-link:focus-visible {
+    color: var(--brand, #4B47D6);
+}
+.sxhc-nav-link:focus-visible {
+    outline: 2px solid var(--brand, #4B47D6);
+    outline-offset: -6px;
+    border-radius: 6px;
+}
+
+/* Indicador inferior (active state) — barrita morada */
+.sxhc-nav-item {
+    position: relative;
+}
+.sxhc-nav-item.is-open .sxhc-nav-trigger,
+.sxhc-nav-link.is-active {
+    color: var(--brand, #4B47D6);
+}
+.sxhc-nav-item.is-open .sxhc-nav-trigger::after,
+.sxhc-nav-link.is-active::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 0;
+    height: 2px;
+    background: var(--brand, #4B47D6);
+    border-radius: 2px 2px 0 0;
+}
+
+.sxhc-nav-item.is-open .sxhc-chev {
+    transform: rotate(180deg);
+}
+
+/* ─── Panel del dropdown ───────────────────────────────────── */
+.sxhc-nav-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, .08), 0 2px 8px rgba(15, 23, 42, .04);
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity .15s ease, transform .15s ease, visibility .15s ease;
+    z-index: 40;
+    margin-top: 4px;
+}
+
+/* Puente invisible que evita el flicker hover entre el trigger y el panel */
+.sxhc-nav-panel::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
+}
+.sxhc-nav-panel--wide   { width: min(640px, 90vw); }
+.sxhc-nav-panel--narrow { width: min(340px, 90vw); }
+
+.sxhc-nav-item.is-open > .sxhc-nav-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Cuando el panel está cerca del borde derecho, alinéalo a la derecha del trigger */
+.sxhc-nav-item:last-child .sxhc-nav-panel {
+    left: auto;
+    right: 0;
+}
+
+/* ─── Drawer mobile ────────────────────────────────────────── */
+.sxhc-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    visibility: hidden;
+}
+.sxhc-drawer.is-open {
+    pointer-events: auto;
+    visibility: visible;
+}
+
+.sxhc-drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, .45);
+    opacity: 0;
+    transition: opacity .2s ease;
+}
+.sxhc-drawer.is-open .sxhc-drawer__backdrop {
+    opacity: 1;
+}
+
+.sxhc-drawer__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(360px, 88vw);
+    background: #fff;
+    box-shadow: -8px 0 24px rgba(15, 23, 42, .12);
+    transform: translateX(100%);
+    transition: transform .25s cubic-bezier(.16, 1, .3, 1);
+    display: flex;
+    flex-direction: column;
+}
+.sxhc-drawer.is-open .sxhc-drawer__panel {
+    transform: translateX(0);
+}
+
+.sxhc-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 56px;
+    border-bottom: 1px solid #e5e7eb;
+    flex-shrink: 0;
+}
+.sxhc-drawer__body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+.sxhc-drawer__footer {
+    flex-shrink: 0;
+    padding: 16px;
+    border-top: 1px solid #e5e7eb;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Links del drawer */
+.sxhc-drawer-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1f2937;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+    transition: background .15s ease, color .15s ease;
+}
+.sxhc-drawer-link:hover,
+.sxhc-drawer-link:focus-visible {
+    background: #f3f4f6;
+    color: var(--brand, #4B47D6);
+}
+
+/* Acordeón */
+.sxhc-drawer-accordion__content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .25s ease;
+    background: #fafbfc;
+}
+.sxhc-drawer-accordion.is-open .sxhc-drawer-accordion__content {
+    max-height: 600px;
+}
+.sxhc-drawer-accordion.is-open .sxhc-chev {
+    transform: rotate(180deg);
+}
+.sxhc-drawer-accordion.is-open .sxhc-drawer-accordion__trigger {
+    color: var(--brand, #4B47D6);
+}
+
+.sxhc-drawer-sublink {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px 12px 44px;
+    font-size: 14px;
+    color: #374151;
+    text-decoration: none;
+    transition: background .15s ease, color .15s ease;
+}
+.sxhc-drawer-sublink:hover,
+.sxhc-drawer-sublink:focus-visible {
+    background: #f0f1ff;
+    color: var(--brand, #4B47D6);
+}
+
+/* Cuando el drawer está abierto, bloquea scroll del body */
+body.sxhc-no-scroll {
+    overflow: hidden;
+}
+
+/* ─── Responsive: oculta texto "Centro de ayuda" cuando el nav es estrecho ── */
+@media (max-width: 1280px) {
+    .sxhc-nav-link {
+        padding: 0 8px;
+    }
+}

@@ -1,6 +1,9 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+// ─── Includes ────────────────────────────────────────────────────────────────
+require_once get_template_directory() . '/inc/navbar-data.php';
+
 // ─── Soporte del tema ────────────────────────────────────────────────────────
 add_action( 'after_setup_theme', function() {
     add_theme_support( 'title-tag' );
@@ -11,6 +14,21 @@ add_action( 'after_setup_theme', function() {
 // ─── Scripts y estilos ───────────────────────────────────────────────────────
 add_action( 'wp_enqueue_scripts', function() {
     wp_enqueue_style( 'sxhc-theme', get_stylesheet_uri() );
+
+    // Navbar
+    wp_enqueue_style(
+        'sxhc-navbar',
+        get_template_directory_uri() . '/assets/css/navbar.css',
+        array(),
+        '1.0.0'
+    );
+    wp_enqueue_script(
+        'sxhc-navbar',
+        get_template_directory_uri() . '/assets/js/navbar.js',
+        array(),
+        '1.0.0',
+        true
+    );
 
     wp_enqueue_script(
         'sxhc-search',
