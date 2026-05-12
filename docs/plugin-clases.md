@@ -21,7 +21,7 @@ Registra la taxonomía jerárquica `help_category` con slug de rewrite `categori
 **Hook:** `init` → `admin_menu`  
 **Página admin:** Help Center → Importar categorías
 
-Parsea `indice-categorias.md` (raíz de WP) y crea términos en `help_category`. Usa un stack de padres indexado por nivel de `#` para construir la jerarquía.
+Parsea `wp-content/imports/indice-categorias.md` y crea términos en `help_category`. Usa un stack de padres indexado por nivel de `#` para construir la jerarquía.
 
 ---
 

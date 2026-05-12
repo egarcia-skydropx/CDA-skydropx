@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class SXHC_Importer {
 
-    const MARKDOWN_FILE = ABSPATH . 'indice-categorias.md';
+    const MARKDOWN_FILE = WP_CONTENT_DIR . '/imports/indice-categorias.md';
 
     public static function init() {
         add_action( 'admin_menu', array( __CLASS__, 'add_admin_page' ) );
@@ -41,7 +41,7 @@ class SXHC_Importer {
                 </p></div>
             <?php endif; ?>
 
-            <p>Este importador lee <strong>indice-categorias.md</strong> de la raíz de WordPress
+            <p>Este importador lee <strong>indice-categorias.md</strong> desde <code>wp-content/imports/</code>
             y crea todas las categorías con su jerarquía en <em>help_category</em>.</p>
 
             <?php if ( $already_imported ) : ?>
@@ -72,7 +72,7 @@ class SXHC_Importer {
 
         if ( ! file_exists( self::MARKDOWN_FILE ) ) {
             $redirect = add_query_arg(
-                array( 'page' => 'sxhc-importer', 'error' => urlencode( 'No se encontró indice-categorias.md en la raíz de WordPress.' ) ),
+                array( 'page' => 'sxhc-importer', 'error' => urlencode( 'No se encontró indice-categorias.md en wp-content/imports/.' ) ),
                 admin_url( 'edit.php?post_type=help_article' )
             );
             wp_redirect( $redirect );
@@ -149,7 +149,7 @@ class SXHC_Importer {
 
     private static function render_preview() {
         if ( ! file_exists( self::MARKDOWN_FILE ) ) {
-            echo '<p style="color:red;">⚠ No se encontró <code>indice-categorias.md</code> en la raíz de WordPress.</p>';
+            echo '<p style="color:red;">⚠ No se encontró <code>indice-categorias.md</code> en <code>wp-content/imports/</code>.</p>';
             return;
         }
 

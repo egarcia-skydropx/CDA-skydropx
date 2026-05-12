@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class SXHC_Article_Importer {
 
-    const CSV_FILE   = ABSPATH . 'CDA Skydropx Pro - Articulos-CDAs - 6717cf7217bfd6fb2b0dbec6.csv';
+    const CSV_FILE   = WP_CONTENT_DIR . '/imports/CDA Skydropx Pro - Articulos-CDAs - 6717cf7217bfd6fb2b0dbec6.csv';
     const BATCH_SIZE = 50;
     const OPTION_KEY = 'sxhc_import_progress';
 
@@ -81,7 +81,7 @@ class SXHC_Article_Importer {
         add_submenu_page(
             'edit.php?post_type=help_article',
             'Importar artículos',
-            'Importar artículos (CSV)',
+            'Importar Artículos',
             'manage_options',
             'sxhc-article-importer',
             array( __CLASS__, 'render_page' )

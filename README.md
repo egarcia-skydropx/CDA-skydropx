@@ -78,13 +78,16 @@ help-center/
 │   ├── plugin-clases.md           ← Referencia de clases PHP
 │   ├── estructura-archivos.md     ← Árbol de archivos y base de datos
 │   └── guia-uso.md                ← Guías paso a paso
-├── indice-categorias.md           ← Fuente de categorías (Markdown)
 ├── wp-content/
+│   ├── imports/                   ← Datos fuente del importador
+│   │   ├── indice-categorias.md   ← Fuente de categorías (Markdown)
+│   │   └── *.csv                  ← Fuente de artículos
 │   ├── plugins/
 │   │   └── skydropx-help-center/  ← Plugin principal
 │   └── themes/
 │       └── skydropx-help/         ← Tema personalizado
-└── README.md                      ← Este archivo
+├── README.md                      ← Este archivo
+└── (archivos core de WordPress)
 ```
 
 ---

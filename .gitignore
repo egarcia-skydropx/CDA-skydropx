@@ -1,0 +1,71 @@
+# ==========================================================================
+# WordPress
+# ==========================================================================
+
+# Credenciales sensibles
+wp-config.php
+wp-config-local.php
+
+# Contenido generado por usuarios
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/backup-db/
+wp-content/backups/
+wp-content/cache/
+wp-content/blogs.dir/
+
+# Plugins y temas de terceros (mantén solo los custom)
+wp-content/plugins/akismet/
+wp-content/plugins/hello.php
+wp-content/themes/twentytwentytwo/
+wp-content/themes/twentytwentythree/
+wp-content/themes/twentytwentyfour/
+wp-content/themes/twentytwentyfive/
+
+# Archivos de instalación de WordPress (vienen al hacer clone limpio)
+# (no se ignoran porque normalmente los queremos versionados)
+
+# ==========================================================================
+# macOS
+# ==========================================================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# ==========================================================================
+# Editores
+# ==========================================================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# ==========================================================================
+# Logs y temporales
+# ==========================================================================
+*.log
+*.bak
+*.tmp
+debug.log
+error_log
+
+# ==========================================================================
+# Node (por si en el futuro se agrega build)
+# ==========================================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+
+# ==========================================================================
+# Scripts temporales / de emergencia
+# ==========================================================================
+reset-pw.php
+sxhc-check.php
+*-debug.php

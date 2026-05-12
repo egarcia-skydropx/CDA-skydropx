@@ -17,8 +17,9 @@
 7. [Ordenar categorías](#7-ordenar-categorías)
 8. [Acciones masivas](#8-acciones-masivas)
 9. [Multi-categoría en artículos](./multi-categoria.md) ← nueva
-10. [URLs y estructura de navegación](#10-urls-y-estructura-de-navegación)
-11. [Decisiones técnicas](#11-decisiones-técnicas)
+10. [Quick Create — botón "Crear otro X"](./quick-create.md) ← nueva
+11. [URLs y estructura de navegación](#10-urls-y-estructura-de-navegación)
+12. [Decisiones técnicas](#11-decisiones-técnicas)
 
 ---
 
@@ -59,7 +60,11 @@ skydropx-help-center/
     ├── class-sxhc-bulk-actions.php   ← Acciones masivas + modal agregar categoría
     ├── class-sxhc-appearance.php     ← Integración con WordPress Customizer
     ├── class-sxhc-category-order.php ← Drag & drop para ordenar categorías
-    └── class-sxhc-category-meta.php  ← Imagen por categoría raíz
+    ├── class-sxhc-category-meta.php  ← Imagen por categoría raíz
+    ├── class-sxhc-multi-category.php ← Múltiples categorías por artículo
+    ├── class-sxhc-alert-block.php    ← Bloque Gutenberg de alertas
+    ├── class-sxhc-views.php          ← Contador de visitas por artículo
+    └── class-sxhc-quick-create.php   ← Botón "Crear otro X" en header del editor
 ```
 
 ### Custom Post Type: `help_article`
@@ -160,7 +165,7 @@ Orden de prioridad:
 ### Categorías (`SXHC_Importer`)
 
 **Ruta admin:** Help Center → Importar categorías  
-**Archivo fuente:** `/indice-categorias.md` (en la raíz de WordPress)
+**Archivo fuente:** `wp-content/imports/indice-categorias.md`
 
 El parser lee los niveles de `#` para determinar la jerarquía:
 - `#` = categoría raíz
@@ -173,7 +178,7 @@ Es idempotente: si se reimporta, omite los que ya existen.
 ### Artículos (`SXHC_Article_Importer`)
 
 **Ruta admin:** Help Center → Importar artículos (CSV)  
-**Archivo fuente:** `CDA Skydropx Pro - Articulos-CDAs - 6717cf7217bfd6fb2b0dbec6.csv`
+**Archivo fuente:** `wp-content/imports/CDA Skydropx Pro - Articulos-CDAs - 6717cf7217bfd6fb2b0dbec6.csv`
 
 **Columnas del CSV usadas:**
 

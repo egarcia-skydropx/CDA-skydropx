@@ -9,10 +9,11 @@
 │   ├── estructura-archivos.md
 │   └── guia-uso.md
 │
-├── indice-categorias.md                           ← Fuente de categorías (jerarquía en Markdown)
-├── CDA Skydropx Pro - Articulos-CDAs - *.csv      ← Fuente de artículos (3,127 items)
-│
 ├── wp-content/
+│   │
+│   ├── imports/                                   ← Datos fuente del importador
+│   │   ├── indice-categorias.md                   ← Fuente de categorías (jerarquía en Markdown)
+│   │   └── CDA Skydropx Pro - Articulos-CDAs - *.csv  ← Fuente de artículos (3,127 items)
 │   │
 │   ├── plugins/
 │   │   └── skydropx-help-center/
@@ -22,7 +23,8 @@
 │   │       │   │   └── alerts.css                 ← Estilos del bloque de alertas
 │   │       │   └── js/
 │   │       │       ├── alert-block.js             ← Bloque Gutenberg de alertas
-│   │       │       └── gutenberg-categories.js    ← Panel de categorías en sidebar
+│   │       │       ├── gutenberg-categories.js    ← Panel de categorías en sidebar
+│   │       │       └── quick-create.js            ← Botón "Crear otro X" en header del editor
 │   │       └── includes/
 │   │           ├── class-sxhc-post-type.php
 │   │           ├── class-sxhc-taxonomy.php
@@ -36,7 +38,8 @@
 │   │           ├── class-sxhc-category-meta.php
 │   │           ├── class-sxhc-multi-category.php  ← Múltiples categorías por artículo
 │   │           ├── class-sxhc-alert-block.php     ← Bloque Gutenberg de alertas
-│   │           └── class-sxhc-views.php           ← Contador de visitas por artículo
+│   │           ├── class-sxhc-views.php           ← Contador de visitas por artículo
+│   │           └── class-sxhc-quick-create.php    ← Botón "Crear otro X" en header (FAQ + artículo)
 │   │
 │   └── themes/
 │       └── skydropx-help/
