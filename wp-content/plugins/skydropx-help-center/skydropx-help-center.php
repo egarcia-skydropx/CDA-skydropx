@@ -29,6 +29,7 @@ require_once SXHC_DIR . 'includes/class-sxhc-category-meta.php';
 require_once SXHC_DIR . 'includes/class-sxhc-multi-category.php';
 require_once SXHC_DIR . 'includes/class-sxhc-alert-block.php';
 require_once SXHC_DIR . 'includes/class-sxhc-views.php';
+require_once SXHC_DIR . 'includes/class-sxhc-quick-create.php';
 
 register_activation_hook( __FILE__,   'sxhc_activate' );
 register_deactivation_hook( __FILE__, 'sxhc_deactivate' );
@@ -56,6 +57,7 @@ add_action( 'init', array( 'SXHC_Category_Meta',    'init' ) );
 add_action( 'init', array( 'SXHC_Multi_Category',  'init' ) );
 add_action( 'init', array( 'SXHC_Alert_Block',     'init' ) );
 add_action( 'init', array( 'SXHC_Views',           'init' ) );
+add_action( 'init', array( 'SXHC_Quick_Create',    'init' ) );
 
 // ── Soporte SVG en la media library ──────────────────────────────────────────
 add_filter( 'upload_mimes', function( $mimes ) {
@@ -95,6 +97,68 @@ add_filter( 'wp_prepare_attachment_for_js', function( $response ) {
 add_action( 'admin_menu', function() {
     remove_menu_page( 'edit.php' );
 } );
+
+// ── Reordenar y renombrar el menú admin (prioridad alta = se ejecuta al final) ──
+add_action( 'admin_menu', function() {
+    global $submenu;
+
+    $key = 'edit.php?post_type=help_article';
+    if ( empty( $submenu[ $key ] ) ) return;
+
+    // Indexar por URL para fácil acceso
+    $indexed = array();
+    foreach ( $submenu[ $key ] as $item ) {
+        $indexed[ $item[2] ] = $item;
+    }
+
+    // Renombrar entradas
+    if ( isset( $indexed['post-new.php?post_type=help_article'] ) ) {
+        $indexed['post-new.php?post_type=help_article'][0] = 'Nuevo Artículo';
+    }
+    if ( isset( $indexed['edit.php?post_type=help_article'] ) ) {
+        $indexed['edit.php?post_type=help_article'][0] = 'Todos los artículos';
+    }
+    $tax_key = 'edit-tags.php?taxonomy=help_category&post_type=help_article';
+    if ( isset( $indexed[ $tax_key ] ) ) {
+        $indexed[ $tax_key ][0] = 'Categorías';
+    }
+    if ( isset( $indexed['sxhc-category-order'] ) ) {
+        $indexed['sxhc-category-order'][0] = 'Ordenar Categorías';
+    }
+    if ( isset( $indexed['sxhc-article-importer'] ) ) {
+        $indexed['sxhc-article-importer'][0] = 'Importar Artículos';
+    }
+    if ( isset( $indexed['sxhc-importer'] ) ) {
+        $indexed['sxhc-importer'][0] = 'Importar Categorías';
+    }
+
+    // Orden deseado
+    $order = array(
+        'post-new.php?post_type=help_article',
+        'edit.php?post_type=help_article',
+        $tax_key,
+        'sxhc-category-order',
+        // 'Banner Home' — pendiente de implementar
+        'sxhc-article-importer',
+        'sxhc-importer',
+    );
+
+    $new_submenu = array();
+    foreach ( $order as $slug ) {
+        if ( isset( $indexed[ $slug ] ) ) {
+            $new_submenu[] = $indexed[ $slug ];
+        }
+    }
+    // Añadir cualquier item no contemplado al final
+    foreach ( $indexed as $slug => $item ) {
+        if ( ! in_array( $slug, $order, true ) ) {
+            $new_submenu[] = $item;
+        }
+    }
+
+    $submenu[ $key ] = $new_submenu;
+
+}, 999 );
 
 // Flush rewrite rules si el slug de la taxonomía cambió
 add_action( 'init', function() {

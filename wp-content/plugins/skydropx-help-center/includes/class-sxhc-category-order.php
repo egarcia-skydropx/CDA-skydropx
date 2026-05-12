@@ -6,12 +6,14 @@ class SXHC_Category_Order {
     const META_KEY  = 'sxhc_term_order';
     const AJAX_SAVE = 'sxhc_save_category_order';
     const AJAX_ADD  = 'sxhc_add_category';
+    const AJAX_MOVE = 'sxhc_move_category';
 
     public static function init() {
         add_action( 'admin_menu',                          array( __CLASS__, 'add_page' ) );
         add_action( 'admin_enqueue_scripts',               array( __CLASS__, 'enqueue' ) );
         add_action( 'wp_ajax_' . self::AJAX_SAVE,         array( __CLASS__, 'handle_save' ) );
         add_action( 'wp_ajax_' . self::AJAX_ADD,          array( __CLASS__, 'handle_add' ) );
+        add_action( 'wp_ajax_' . self::AJAX_MOVE,         array( __CLASS__, 'handle_move' ) );
     }
 
     // ── Página admin ──────────────────────────────────────────────────────
@@ -54,6 +56,48 @@ class SXHC_Category_Order {
         }
 
         wp_send_json_success( array( 'saved' => count( $items ) ) );
+    }
+
+    // ── Mover categoría a otro nivel vía AJAX ────────────────────────────
+
+    public static function handle_move() {
+        check_ajax_referer( self::AJAX_MOVE, 'nonce' );
+        if ( ! current_user_can( 'manage_options' ) ) wp_send_json_error( 'Sin permisos.' );
+
+        $term_id    = isset( $_POST['term_id'] )    ? absint( $_POST['term_id'] )    : 0;
+        $new_parent = isset( $_POST['new_parent'] ) ? absint( $_POST['new_parent'] ) : 0;
+        $dest_order = isset( $_POST['dest_order'] ) ? (array) $_POST['dest_order']  : array();
+        $src_order  = isset( $_POST['src_order'] )  ? (array) $_POST['src_order']   : array();
+
+        if ( ! $term_id ) {
+            wp_send_json_error( 'term_id inválido.' );
+        }
+
+        $term = get_term( $term_id, 'help_category' );
+        if ( ! $term || is_wp_error( $term ) ) {
+            wp_send_json_error( 'Categoría no encontrada.' );
+        }
+
+        // Actualizar el parent del término en la taxonomía
+        $result = wp_update_term( $term_id, 'help_category', array( 'parent' => $new_parent ) );
+        if ( is_wp_error( $result ) ) {
+            wp_send_json_error( $result->get_error_message() );
+        }
+
+        // Actualizar el orden en la lista destino
+        foreach ( $dest_order as $position => $tid ) {
+            update_term_meta( absint( $tid ), self::META_KEY, (int) $position );
+        }
+
+        // Actualizar el orden en la lista origen
+        foreach ( $src_order as $position => $tid ) {
+            update_term_meta( absint( $tid ), self::META_KEY, (int) $position );
+        }
+
+        wp_send_json_success( array(
+            'moved'      => $term_id,
+            'new_parent' => $new_parent,
+        ) );
     }
 
     // ── Crear nueva categoría/subcategoría vía AJAX ───────────────────────
@@ -359,9 +403,11 @@ class SXHC_Category_Order {
                 return;
             }
 
-            var nonce    = '<?php echo esc_js( wp_create_nonce( self::AJAX_SAVE ) ); ?>';
-            var ajaxUrl  = '<?php echo esc_js( admin_url( 'admin-ajax.php' ) ); ?>';
-            var saveTimer;
+            var nonce     = '<?php echo esc_js( wp_create_nonce( self::AJAX_SAVE ) ); ?>';
+            var nonceMove = '<?php echo esc_js( wp_create_nonce( self::AJAX_MOVE ) ); ?>';
+            var ajaxUrl   = '<?php echo esc_js( admin_url( 'admin-ajax.php' ) ); ?>';
+            var moveTimer;   // timer del AJAX_MOVE (cross-list)
+            var orderTimer;  // timer del AJAX_SAVE (same-list reorder)
 
             function showStatus( msg, ok ) {
                 var $s = $('#sxhc-order-status');
@@ -397,17 +443,111 @@ class SXHC_Category_Order {
                 });
             }
 
+            // Retorna el term_id del padre de una lista (0 = raíz)
+            function getListParentId( $list ) {
+                var $parentItem = $list.closest('.sxhc-cat-item');
+                return $parentItem.length ? parseInt( $parentItem.data('term-id'), 10 ) : 0;
+            }
+
+            // Retorna array de term_ids de los hijos directos de una lista
+            function getListOrder( $list ) {
+                var ids = [];
+                $list.children('.sxhc-cat-item').each(function() {
+                    ids.push( parseInt( $(this).data('term-id'), 10 ) );
+                });
+                return ids;
+            }
+
+            // Limpia el contenedor padre si quedó vacío tras mover el último hijo
+            function cleanupEmptyContainer( $srcList ) {
+                if ( $srcList.children('.sxhc-cat-item').length > 0 ) return;
+
+                var $srcParentItem = $srcList.closest('.sxhc-cat-item');
+                var $container     = $srcList.closest('.sxhc-cat-children');
+
+                if ( $container.length && $srcParentItem.length ) {
+                    var parentId = $srcParentItem.data('term-id');
+                    $container.remove();
+
+                    // Restaurar botón + en el header del padre (ahora es hoja)
+                    var $header = $srcParentItem.find('> .sxhc-cat-header');
+                    if ( ! $header.find('.sxhc-btn-add').length ) {
+                        $header.append(
+                            '<button type="button" class="sxhc-btn-add" ' +
+                            'data-parent="' + parentId + '" ' +
+                            'title="Agregar subcategoría">+</button>'
+                        );
+                    }
+
+                    // Restaurar formulario oculto para hoja
+                    if ( ! $srcParentItem.find('> .sxhc-add-form').length ) {
+                        $srcParentItem.append(
+                            '<div class="sxhc-add-form" data-parent="' + parentId + '">' +
+                                '<input type="text" placeholder="Nueva subcategoría…" ' +
+                                       'class="sxhc-new-name" autocomplete="off"/>' +
+                                '<button type="button" class="sxhc-save-btn">Agregar</button>' +
+                                '<button type="button" class="sxhc-cancel-btn">Cancelar</button>' +
+                            '</div>'
+                        );
+                    }
+                }
+            }
+
             function initSortable( $list ) {
                 $list.sortable({
-                    handle:              '.sxhc-drag-handle',
-                    placeholder:         'sxhc-sortable-placeholder',
+                    handle:               '.sxhc-drag-handle',
+                    connectWith:          '.sxhc-sortable-list',
+                    placeholder:          'sxhc-sortable-placeholder',
                     forcePlaceholderSize: true,
-                    tolerance:           'pointer',
-                    cursor:              'grabbing',
-                    opacity:             0.85,
-                    stop: function() {
-                        clearTimeout(saveTimer);
-                        saveTimer = setTimeout(function() { saveOrder($list); }, 400);
+                    tolerance:            'pointer',
+                    cursor:               'grabbing',
+                    opacity:              0.85,
+
+                    // Fired en la lista DESTINO cuando llega un ítem de otra lista
+                    receive: function( event, ui ) {
+                        var $destList = $( this );
+                        var $srcList  = ui.sender;
+                        var $item     = ui.item;
+                        var termId    = parseInt( $item.data('term-id'), 10 );
+                        var newParent = getListParentId( $destList );
+                        var destOrder = getListOrder( $destList );
+                        var srcOrder  = getListOrder( $srcList );
+
+                        cleanupEmptyContainer( $srcList );
+
+                        clearTimeout( moveTimer );
+                        moveTimer = setTimeout(function() {
+                            $.post( ajaxUrl, {
+                                action:     '<?php echo esc_js( self::AJAX_MOVE ); ?>',
+                                nonce:      nonceMove,
+                                term_id:    termId,
+                                new_parent: newParent,
+                                dest_order: destOrder,
+                                src_order:  srcOrder
+                            })
+                            .done(function( res ) {
+                                if ( res.success ) {
+                                    showStatus( '✅ Categoría movida correctamente', true );
+                                } else {
+                                    showStatus( '❌ ' + res.data, false );
+                                }
+                            })
+                            .fail(function() {
+                                showStatus( '❌ Error de red', false );
+                            });
+                        }, 400 );
+                    },
+
+                    // Fired al terminar el drag (en la lista origen).
+                    // Detectamos same-list reorder verificando que el item siga en ESTA lista.
+                    // En cross-list moves, el item ya no está aquí → lo maneja `receive`.
+                    stop: function( event, ui ) {
+                        var listEl = this;
+                        if ( ! $.contains( listEl, ui.item[0] ) ) return;
+
+                        clearTimeout( orderTimer );
+                        var $self = $( listEl );
+                        orderTimer = setTimeout(function() { saveOrder( $self ); }, 400 );
                     }
                 });
                 $list.disableSelection();

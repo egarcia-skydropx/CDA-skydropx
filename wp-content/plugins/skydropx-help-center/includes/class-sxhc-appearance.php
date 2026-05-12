@@ -15,7 +15,7 @@ class SXHC_Appearance {
         'color_border'      => '#E5E7EB',
         'bg_page'           => '#F9FAFB',
         'bg_header'         => '#FFFFFF',
-        'bg_hero'           => '#FFFFFF',
+        'bg_hero'           => '#F8F8FC',
         'bg_sidebar'        => '#FFFFFF',
         'font_family'       => 'system-ui, -apple-system, sans-serif',
         'card_radius'       => 16,
@@ -206,7 +206,18 @@ class SXHC_Appearance {
     --font:        <?php echo esc_attr( $s['font_family'] ); ?>;
 }
 * { font-family: var(--font); }
-body { background: var(--bg-page); color: var(--text); }
+body {
+    background-color: var(--bg-page);
+    background-image: radial-gradient(circle, rgba(0,0,0,0.07) 1px, transparent 1px);
+    background-size: 22px 22px;
+    color: var(--text);
+}
+/* El hero puede tener su propio fondo; mantenemos el patrón también */
+.sxhc-hero-bg {
+    background-color: var(--bg-hero);
+    background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+    background-size: 22px 22px;
+}
 </style>
 <script>
 tailwind.config = {

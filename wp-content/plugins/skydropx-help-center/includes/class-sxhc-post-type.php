@@ -9,8 +9,8 @@ class SXHC_Post_Type {
         $labels = array(
             'name'               => 'Artículos de ayuda',
             'singular_name'      => 'Artículo de ayuda',
-            'add_new'            => 'Agregar artículo',
-            'add_new_item'       => 'Agregar artículo de ayuda',
+            'add_new'            => 'Nuevo Artículo',
+            'add_new_item'       => 'Nuevo Artículo',
             'edit_item'          => 'Editar artículo',
             'new_item'           => 'Nuevo artículo',
             'view_item'          => 'Ver artículo',

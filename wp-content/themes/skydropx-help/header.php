@@ -6,6 +6,7 @@
     <?php wp_head(); ?>
 </head>
 <body <?php body_class( 'antialiased' ); ?>>
+<?php wp_body_open(); ?>
 
 <?php
 $logo_id      = class_exists( 'SXHC_Appearance' ) ? (int) get_theme_mod( 'sxhc_logo_id', 0 ) : 0;
@@ -40,18 +41,14 @@ if ( ! $logo_url ) {
         <?php // ── Espaciador flexible ─────────────────────────────────── ?>
         <div class="flex-1"></div>
 
-        <?php // ── Bloque derecho: buscador + auth/hamburger ───────────── ?>
+        <?php // ── Bloque derecho: auth/hamburger ───────────────────────── ?>
+        <?php // El buscador se movió al sidebar (template-parts/sidebar.php) ?>
         <div class="flex items-center gap-4 shrink-0">
-            <?php if ( ! is_front_page() ) : ?>
-                <div class="hidden md:block">
-                    <?php get_template_part( 'template-parts/search-input', null, array( 'variant' => 'compact' ) ); ?>
-                </div>
-            <?php endif; ?>
-
             <?php get_template_part( 'template-parts/main-navbar-auth' ); ?>
         </div>
 
     </div>
 </header>
 
+<?php do_action( 'sxhc_after_header' ); ?>
 <?php get_template_part( 'template-parts/main-navbar-drawer' ); ?>

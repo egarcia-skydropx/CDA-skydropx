@@ -5,7 +5,7 @@
 <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.10/dist/dotlottie-wc.js" type="module"></script>
 
 <!-- Hero + Search ─────────────────────────────────────────────────────────── -->
-<section style="background:var(--bg-hero)" class="border-b border-gray-100 py-12 px-6 text-center">
+<section class="sxhc-hero-bg py-8 px-6 text-center">
 
     <!-- Lottie animation -->
     <div class="flex justify-center mb-2">
@@ -36,7 +36,7 @@
 </section>
 
 <!-- Categorías raíz ────────────────────────────────────────────────────────── -->
-<section class="max-w-5xl mx-auto px-6 py-12">
+<section class="max-w-5xl mx-auto px-6 py-6">
     <?php
     // Usar el orden personalizado si existe
     $categories = class_exists( 'SXHC_Category_Order' )
@@ -59,8 +59,13 @@
             : '';
         ?>
         <a href="<?php echo esc_url( get_term_link( $cat ) ); ?>"
-           class="group flex flex-col bg-white border border-gray-200 rounded-2xl p-6
-                  hover:border-brand hover:shadow-md transition-all duration-200">
+           class="group flex flex-col p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+           style="
+               background-color: #F4F3FF;
+               background-image: radial-gradient(circle at 100% 0%, rgba(116,219,252,0.2) 0%, rgba(108,85,245,0.11) 100%);
+               border: 3px solid #ffffff;
+               border-radius: 10px;
+           ">
 
             <?php if ( $img_url ) : ?>
                 <div class="mb-4">
@@ -70,19 +75,15 @@
                 </div>
             <?php endif; ?>
 
-            <h2 class="font-semibold text-gray-900 group-hover:text-brand transition-colors mb-1">
+            <h2 class="text-base mb-1" style="color: var(--brand); font-weight: 550;">
                 <?php echo esc_html( $cat->name ); ?>
             </h2>
 
             <?php if ( $cat->description ) : ?>
-                <p class="text-sm text-gray-500 mt-1 mb-0">
+                <p class="text-sm text-gray-700 mb-0">
                     <?php echo esc_html( $cat->description ); ?>
                 </p>
             <?php endif; ?>
-
-            <p class="text-xs text-gray-400 mt-auto pt-3">
-                <?php echo $child_count; ?> subcategoría<?php echo $child_count !== 1 ? 's' : ''; ?>
-            </p>
         </a>
         <?php endforeach; ?>
     </div>

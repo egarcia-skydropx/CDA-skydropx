@@ -2,14 +2,14 @@
 /**
  * Buscador reutilizable.
  * $args['variant'] = 'hero'    -> versión grande (homepage)
- * $args['variant'] = 'compact' -> versión pequeña (header)
+ * $args['variant'] = 'compact' -> versión pequeña (sidebar de categorías)
  */
 $variant     = isset( $args['variant'] ) ? $args['variant'] : 'compact';
 $is_hero     = $variant === 'hero';
 
 $wrap_class  = $is_hero
     ? 'relative max-w-xl mx-auto'
-    : 'relative w-64';
+    : 'relative w-full';
 
 $input_class = $is_hero
     ? 'w-full pl-12 pr-10 py-3.5 rounded-2xl border border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-400 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition'

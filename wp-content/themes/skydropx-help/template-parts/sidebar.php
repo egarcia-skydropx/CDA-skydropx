@@ -7,6 +7,12 @@ $active_ids = isset( $args['active_ids'] ) ? $args['active_ids'] : array();
 ?>
 <aside class="w-64 shrink-0">
     <div class="sticky top-20">
+
+        <?php // Buscador (movido del header) ?>
+        <div class="mb-5">
+            <?php get_template_part( 'template-parts/search-input', null, array( 'variant' => 'compact' ) ); ?>
+        </div>
+
         <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3 px-2">
             Categorías
         </p>

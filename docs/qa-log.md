@@ -2,6 +2,47 @@
 
 ---
 
+## QA — 2026-05-04 (Quick Create)
+
+### Funcionalidad nueva
+
+- **Botón "Crear otro X" en el header del editor** — `SXHC_Quick_Create` (clase nueva). En el editor de bloques de `help_article` o `sxhc_faq`, inyecta un `<button class="components-button is-secondary">` al inicio del contenedor de acciones del header. El destino es siempre el MISMO post type que se está editando:
+  - Editando un artículo → "Nuevo artículo" → `post-new.php?post_type=help_article`
+  - Editando una FAQ     → "Nueva pregunta" → `post-new.php?post_type=sxhc_faq`
+- Si la entrada actual está sucia (`isEditedPostDirty()`), pide confirmación con `window.confirm()` antes de navegar. No hereda nada al destino.
+
+### Archivos creados
+
+- `wp-content/plugins/skydropx-help-center/includes/class-sxhc-quick-create.php`
+- `wp-content/plugins/skydropx-help-center/assets/js/quick-create.js`
+
+### Archivos modificados
+
+- `wp-content/plugins/skydropx-help-center/skydropx-help-center.php` — `require_once` de la clase nueva (línea 32) + `add_action( 'init', array( 'SXHC_Quick_Create', 'init' ) );` (línea 60)
+
+### Bugs corregidos durante el QA
+
+- **Docstring desactualizado** — `quick-create.js:1-9` decía "bidireccional / Nueva FAQ" (versión inicial del feature antes del cambio de alcance) → corregido a "mismo post type / Nueva pregunta"
+- **Branch vacío redundante** — `quick-create.js:95-97` tenía `if ( injectButton() ) { /* comentario sin efecto */ }` → simplificado a `injectButton();`
+- **Falta de capability check** — `class-sxhc-quick-create.php:enqueue()` no validaba `current_user_can( 'edit_posts' )` (defensa en profundidad). Agregado. Ambos CPT usan `capability_type = 'post'` (verificado en `class-sxhc-post-type.php:33` y default de `sxhc-faq.php`), así que `edit_posts` es la cap correcta para ambos.
+
+### Sin cambios necesarios
+
+- **PHP 7.2 compat** — `class-sxhc-quick-create.php` no usa `match()`, `fn()`, `??=`, `str_contains()`, `str_starts_with()`. Solo `array(...)`, `sprintf()`, `method_exists()`, callables de array `array(__CLASS__, ...)`. Limpio.
+- **JS estilo legacy** — `quick-create.js` usa `var`, `function() {}`, sin arrow functions, sin template literals. Compatible con browsers viejos y consistente con `gutenberg-categories.js`.
+- **Sin `console.log` de debug** — verificado.
+- **`SXHC_URL` disponible** — definido en línea 17 del bootstrap, usado en `enqueue()` que corre en `admin_enqueue_scripts` (posterior a `init`). Ordering correcto.
+- **Hooks personalizados** — no hay; solo `add_action( 'admin_enqueue_scripts', ... )` que es nativo de WP.
+- **MutationObserver con cleanup** — `useEffect` retorna función de teardown que llama `clearInterval`, `observer.disconnect()` y `removeButton()`. No hay leak.
+- **`sxhc-faq.php`** — durante la sesión se intentó cambiar el layout a row-by-row, pero se revirtió a petición del usuario. Verificado: `gap: 24px`, dos `.sxhc-faq-col` wrappers (líneas 407 y 413), regla CSS `.sxhc-faq-col` presente (línea 473), algoritmo greedy intacto. Estado pre-edición restaurado.
+
+### Edge cases conocidos / aceptados
+
+- **Doble confirm posible** si Gutenberg tiene activo su propio `beforeunload`. El usuario eligió explícitamente "misma pestaña con confirmación" cuando se le preguntó. Aceptado.
+- **Reintentos del setInterval terminan a los 8 s.** Si el header de Gutenberg monta después de los 8 s (extremadamente raro), el botón no se inyectará hasta el próximo render que dispare el MutationObserver. Aceptado por simplicidad.
+
+---
+
 ## QA — 2026-04-28 (sesión 3)
 
 ### Bugs corregidos
